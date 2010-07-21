@@ -1,0 +1,66 @@
+body {
+    background: #eef;
+    padding: 0;
+    font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+}
+
+#wrapper {
+    width: 960px;
+    margin: 0 auto;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #ddd;
+}
+.clear { clear: both; }
+
+#header h1 {
+    float: left;
+}
+
+#linkbar {
+    float: right;
+    margin: 20px;
+    list-style-type: none;
+}
+
+
+#message {
+    width: 840px;
+    margin: 10px auto;
+}
+
+#message textarea {
+    width: 828px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    resize: none;
+}
+
+#message button {
+    display: block;
+    float: right;
+    font-size: 24px;
+    width: 240px;
+}
+
+#messages div {
+    margin: 1em auto;
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 800px;
+}
+
+#messages div>span {
+    float: right;
+    color: #888;
+    font-size: 12px;
+}
+
+#messages div blockquote span {
+    display: block;
+    margin-left: 2em;
+}
+
+#messages blockquote span:before {
+    content: " — ";
+}

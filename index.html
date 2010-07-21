@@ -4,20 +4,84 @@
     <title>FISL Live</title>
     <meta charset="utf-8" />
     <script src="http://www.google.com/jsapi"></script>
+    <link rel="stylesheet" href="/style.css" type="text/css" media="screen">
 </head>
 
 <body>
-    <h1>FISL Live Stream</h1>
-    <form action="." method="post">
-        <textarea name="message" id="message"></textarea>
-        <button type="submit">Send</button>
-    </form>
-    <ul id="messages"></ul>
+    <div id="wrapper">
+        <div id="header">
+            <h1>FISL Live Stream</h1>
+            <ul id="linkbar">
+                <li><a href="{{ url }}">{{ linktext }}</a></li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+
+        <div id="message">
+            <form action="">
+                <p>{{ user.nickname|default:"Anonymous Coward" }} says:</p>
+                <textarea name="content" id="content" cols="72" rows="4" autofocus="autofocus"></textarea>
+                <button type="submit" id="send">Send</button>
+            </form>
+        </div>
+        <div class="clear"></div>
+
+        <div id="messages"></div>
+    </div>
 
 <script>
-    // Load jQuery
-    google.load("jquery", "1");
+    var INTERVAL = 3 * 60 * 1000; // 3min
 
+    function refresh(path) {
+        var url = "/messages" + path;
+
+        $.getJSON(url, function(messages) {
+            for (var i in messages) {
+                var content = messages[i].content;
+                var timestamp = messages[i].date.ctime;
+                var author = "Anonymous Coward";
+
+                if (messages[i].author)
+                    author = messages[i].author.nickname;
+
+                $("<div>")
+                    .append($("<blockquote>")
+                        .append(content)
+                        .append($("<span>").append(author))
+                    )
+                    .append($("<span>").append(timestamp))
+                .prependTo($("#messages"));
+            }
+        });
+        window.setTimeout(refresh, INTERVAL, false);
+    }
+
+    function send_message() {
+        var form_data = $(this).serialize();
+        var content = $('#content');
+
+        $.ajax({
+            type: "POST",
+            url: "/",
+            data: form_data,
+            success: function() {
+                content.val("");
+                content.focus();
+                refresh("");
+            }
+        });
+        return false;
+    }
+
+    function main() {
+        refresh("/all");
+        $('form').submit(send_message);
+        window.setTimeout(refresh, INTERVAL, "");
+    }
+
+    google.load("jquery", "1.4.2");
+    google.setOnLoadCallback(main);
 </script>
+
 </body>
 </html>
