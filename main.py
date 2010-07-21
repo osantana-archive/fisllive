@@ -6,8 +6,6 @@
 # Copyright (c) 2010, Triveos Tecnologia Ltda.
 # License: AGPLv3
 
-import logging
-
 from os.path import *
 from datetime import datetime
 
@@ -43,7 +41,7 @@ class Page(webapp.RequestHandler):
 
         path = join(dirname(__file__), 'index.html')
         self.response.out.write(template.render(path, locals()))
-        
+
     def post(self):
         content = self.request.get('content')
         if content:
@@ -54,7 +52,7 @@ class Page(webapp.RequestHandler):
             message.put()
         self.redirect("/")
 
-    
+
 class Messages(webapp.RequestHandler):
     def get(self, mode=""):
         messages_query = Message.all().order('date')
@@ -67,7 +65,7 @@ class Messages(webapp.RequestHandler):
         session["last"] = datetime.utcnow()
 
         result = json.encode(messages_query.fetch(20))
-        self.response.headers['Content-Type'] = 'application/json; charset=utf-8'  
+        self.response.headers['Content-Type'] = 'application/json; charset=utf-8'
         self.response.out.write(result)
 
 if __name__ == "__main__":
