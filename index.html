@@ -30,10 +30,14 @@
     </div>
 
 <script>
-    var INTERVAL = 3 * 60 * 1000; // 3min
+    var INTERVAL =  3 * 60 * 1000; // 3min
 
-    function refresh(path) {
-        var url = "/messages" + path;
+    function refresh(all) {
+        if (all) {
+            var url = "/messages/all"
+        } else {
+            var url = "/messages"
+        }
 
         $.getJSON(url, function(messages) {
             for (var i in messages) {
@@ -53,7 +57,7 @@
                 .prependTo($("#messages"));
             }
         });
-        window.setTimeout(refresh, INTERVAL, false);
+        window.setTimeout(refresh, INTERVAL);
     }
 
     function send_message() {
@@ -74,9 +78,9 @@
     }
 
     function main() {
-        refresh("/all");
+        refresh(true);
         $('form').submit(send_message);
-        window.setTimeout(refresh, INTERVAL, "");
+        window.setTimeout(refresh, INTERVAL);
     }
 
     google.load("jquery", "1.4.2");
