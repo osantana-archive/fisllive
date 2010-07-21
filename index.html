@@ -34,9 +34,9 @@
 
     function refresh(all) {
         if (all) {
-            var url = "/messages/all"
+            var url = "/messages/all";
         } else {
-            var url = "/messages"
+            var url = "/messages";
         }
 
         $.getJSON(url, function(messages) {
@@ -57,7 +57,6 @@
                 .prependTo($("#messages"));
             }
         });
-        window.setTimeout(refresh, INTERVAL);
     }
 
     function send_message() {
@@ -71,7 +70,7 @@
             success: function() {
                 content.val("");
                 content.focus();
-                refresh("");
+                refresh();
             }
         });
         return false;
@@ -80,7 +79,7 @@
     function main() {
         refresh(true);
         $('form').submit(send_message);
-        window.setTimeout(refresh, INTERVAL);
+        window.setInterval(refresh, INTERVAL);
     }
 
     google.load("jquery", "1.4.2");
